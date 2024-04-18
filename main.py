@@ -19,19 +19,19 @@ def exibir_grafico(x_treino, y_treino, x_test, y_test, title):
     (regressao_um,
      regressao_dois,
      regressao_tres,
-     regressao_oito) = obter_regressao(x_test, coeficiente_um, coeficiente_dois, coeficiente_tres, coeficiente_oito)
+     regressao_oito) = obter_regressao(x_treino, coeficiente_um, coeficiente_dois, coeficiente_tres, coeficiente_oito)
 
     desenhar_grafico(x_treino, y_test, regressao_um, regressao_dois, regressao_tres, regressao_oito)
     plt.legend()
     plt.show()
 
 
-def desenhar_grafico(x_treino, y, l1, l2, l3, l8):
+def desenhar_grafico(x, y, l1, l2, l3, l8):
     # TODO: VALIDAR SE O VALOR DO EQM E DO R2 ESTAO CORRETOS
-    plt.plot(x_treino, l1, label='Grau 1' + get_legenda_eqm_r2(y, l1), color='red')
-    plt.plot(x_treino, l2, label='Grau 2' + get_legenda_eqm_r2(y, l2), color='green')
-    plt.plot(x_treino, l3, label='Grau 3' + get_legenda_eqm_r2(y, l3), color='black')
-    plt.plot(x_treino, l8, label='Grau 8' + get_legenda_eqm_r2(y, l8), color='yellow')
+    plt.plot(x, l1, label='Grau 1' + get_legenda_eqm_r2(y, l1), color='red')
+    plt.plot(x, l2, label='Grau 2' + get_legenda_eqm_r2(y, l2), color='green')
+    plt.plot(x, l3, label='Grau 3' + get_legenda_eqm_r2(y, l3), color='black')
+    plt.plot(x, l8, label='Grau 8' + get_legenda_eqm_r2(y, l8), color='yellow')
 
 
 def obter_regressao(x, b1, b2, b3, b8):
@@ -62,15 +62,15 @@ def obter_coeficientes(x, y):
 
 
 def get_legenda_eqm_r2(yi, yf):
-    return ' - EQM: ' + str(round(calcular_eqm(yi, yf), 4)) + ' | R2: ' + str(round(skl.r2_score(yi, yf), 4))
+    return ' - EQM: ' + str(round(calcular_eqm(yi, yf), 4)) + ' | R2: ' + str(round(skl.r2_score(yi, yf[:yi.size]), 4))
 
 
 def calcular_eqm(yi, yf):
     # eqm - erro quadratico medio
     soma = 0
-    for i in range(len(yf)):
+    for i in range(len(yi)):
         soma += (yi[i] - yf[i]) ** 2
-    return soma / len(yf)
+    return soma / len(yi)
 
 
 def dividir_dados_treino(x, y):
