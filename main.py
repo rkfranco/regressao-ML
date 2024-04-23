@@ -1,3 +1,5 @@
+import random
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -35,12 +37,11 @@ def desenhar_grafico(x, y, l1, l2, l3, l8):
 
 
 def obter_regressao(x, b1, b2, b3, b8):
-    # TODO: Os coeficientes estão na ordem contraria / VALIDAR SE PRECISA FAZER ISSO
-
     y1 = []
     y2 = []
     y3 = []
     y8 = []
+
     for valor in x:
         y1.append(calcular_regressao(valor, b1[::-1]))
         y2.append(calcular_regressao(valor, b2[::-1]))
@@ -74,12 +75,19 @@ def calcular_eqm(yi, yf):
 
 
 def dividir_dados_treino(x, y):
+    x_treinamento = x
+    y_treinamento = y
+    x_test = []
+    y_test = []
+
     qtd_teste = round(x.size * 0.1)
-    x_test = x[:qtd_teste]
-    x_treinamento = x[qtd_teste:]
-    y_test = y[:qtd_teste]
-    y_treinamento = y[qtd_teste:]
-    return x_test, y_test, x_treinamento, y_treinamento
+
+    for i in range(qtd_teste):
+        posicao = random.randint(0, x_treinamento.size)
+        x_test.append(x_treinamento.tolist().pop(posicao))
+        y_test.append(y_treinamento.tolist().pop(posicao))
+
+    return np.array(x_test), np.array(y_test), x_treinamento, y_treinamento
 
 
 def demo_regressaop():
